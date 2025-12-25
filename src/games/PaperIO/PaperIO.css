@@ -1,0 +1,177 @@
+.paperio-game {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  position: relative;
+}
+
+.game-hud {
+  display: flex;
+  justify-content: space-between;
+  width: 600px;
+  gap: 1rem;
+}
+
+.player-stats {
+  background: linear-gradient(135deg, #1e293b, #0f172a);
+  padding: 1rem 1.5rem;
+  border-radius: 12px;
+  border: 2px solid #3b82f6;
+  text-align: center;
+}
+
+.percent-display {
+  font-size: 2.5rem;
+  font-weight: bold;
+  color: #3b82f6;
+  text-shadow: 0 0 20px rgba(59, 130, 246, 0.5);
+}
+
+.percent-label {
+  font-size: 0.8rem;
+  color: #64748b;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.leaderboard {
+  background: linear-gradient(135deg, #1e293b, #0f172a);
+  padding: 0.75rem 1rem;
+  border-radius: 12px;
+  border: 2px solid #475569;
+  min-width: 220px;
+}
+
+.leaderboard-title {
+  font-size: 0.85rem;
+  font-weight: bold;
+  color: #94a3b8;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-bottom: 0.5rem;
+  text-align: center;
+  border-bottom: 1px solid #334155;
+  padding-bottom: 0.5rem;
+}
+
+.leaderboard-entry {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.3rem 0;
+  font-size: 0.85rem;
+  color: #cbd5e1;
+}
+
+.leaderboard-entry.is-player {
+  background: rgba(59, 130, 246, 0.2);
+  margin: 0 -0.5rem;
+  padding: 0.3rem 0.5rem;
+  border-radius: 6px;
+  font-weight: bold;
+}
+
+.leaderboard-entry .rank {
+  color: #64748b;
+  font-weight: bold;
+  width: 24px;
+}
+
+.leaderboard-entry .color-dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 3px;
+  flex-shrink: 0;
+}
+
+.leaderboard-entry .name {
+  flex: 1;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.leaderboard-entry .score {
+  font-weight: bold;
+  color: #fff;
+}
+
+.paperio-canvas {
+  border: 3px solid #3b82f6;
+  border-radius: 12px;
+  box-shadow: 0 0 30px rgba(59, 130, 246, 0.3);
+}
+
+.controls-hint {
+  color: #64748b;
+  font-size: 0.85rem;
+  text-align: center;
+}
+
+.overlay {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 400px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, rgba(15, 23, 42, 0.98), rgba(30, 41, 59, 0.98));
+  border-radius: 20px;
+  border: 3px solid #3b82f6;
+  color: #fff;
+  text-align: center;
+  padding: 2.5rem;
+  box-shadow: 0 25px 50px rgba(0, 0, 0, 0.5);
+  z-index: 10;
+}
+
+.overlay h2 {
+  font-size: 2.5rem;
+  color: #3b82f6;
+  margin: 0 0 1.5rem;
+  text-shadow: 0 0 30px rgba(59, 130, 246, 0.5);
+}
+
+.overlay .instructions {
+  margin-bottom: 1.5rem;
+}
+
+.overlay .instructions p {
+  margin: 0.5rem 0;
+  color: #94a3b8;
+  font-size: 1rem;
+}
+
+.overlay .instructions strong {
+  color: #fff;
+}
+
+.overlay .final-stats {
+  margin-bottom: 1.5rem;
+}
+
+.overlay .final-stats p {
+  margin: 0.5rem 0;
+  font-size: 1.2rem;
+  color: #94a3b8;
+}
+
+.overlay .final-stats strong {
+  color: #3b82f6;
+  font-size: 1.4rem;
+}
+
+.overlay .start-hint {
+  color: #4ade80;
+  font-size: 1.1rem;
+  animation: pulse 1.5s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.5; }
+}
