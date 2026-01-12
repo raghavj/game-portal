@@ -1,0 +1,194 @@
+.simon-game {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.5rem;
+  position: relative;
+  padding: 1rem;
+}
+
+.simon-stats {
+  display: flex;
+  gap: 2rem;
+}
+
+.stat-box {
+  background: linear-gradient(135deg, #1e293b, #0f172a);
+  padding: 0.75rem 1.5rem;
+  border-radius: 12px;
+  border: 2px solid #475569;
+  text-align: center;
+  min-width: 100px;
+}
+
+.stat-value {
+  font-size: 2rem;
+  font-weight: bold;
+  color: #fff;
+}
+
+.stat-label {
+  font-size: 0.75rem;
+  color: #64748b;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.simon-board {
+  position: relative;
+  width: 320px;
+  height: 320px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: 1fr 1fr;
+  gap: 8px;
+  padding: 8px;
+  background: #1a1a2e;
+  border-radius: 50%;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+}
+
+.simon-btn {
+  border: none;
+  cursor: pointer;
+  transition: filter 0.1s, transform 0.1s;
+  opacity: 0.6;
+}
+
+.simon-btn:disabled {
+  cursor: not-allowed;
+}
+
+.simon-btn.active {
+  opacity: 1;
+  filter: brightness(1.5);
+  transform: scale(1.02);
+}
+
+.simon-btn:not(:disabled):hover {
+  opacity: 0.8;
+}
+
+.simon-btn:not(:disabled):active {
+  transform: scale(0.98);
+}
+
+.simon-btn.green {
+  background: linear-gradient(135deg, #22c55e, #16a34a);
+  border-radius: 100% 0 0 0;
+}
+
+.simon-btn.red {
+  background: linear-gradient(135deg, #ef4444, #dc2626);
+  border-radius: 0 100% 0 0;
+}
+
+.simon-btn.yellow {
+  background: linear-gradient(135deg, #eab308, #ca8a04);
+  border-radius: 0 0 0 100%;
+}
+
+.simon-btn.blue {
+  background: linear-gradient(135deg, #3b82f6, #2563eb);
+  border-radius: 0 0 100% 0;
+}
+
+.simon-center {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 100px;
+  height: 100px;
+  background: #1a1a2e;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: inset 0 2px 10px rgba(0, 0, 0, 0.5);
+}
+
+.simon-label {
+  font-size: 1.2rem;
+  font-weight: bold;
+  color: #64748b;
+  letter-spacing: 2px;
+}
+
+.simon-hint {
+  font-size: 1rem;
+  color: #94a3b8;
+  height: 24px;
+}
+
+.overlay {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 350px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background: linear-gradient(135deg, rgba(15, 23, 42, 0.98), rgba(30, 41, 59, 0.98));
+  border-radius: 20px;
+  border: 3px solid #a855f7;
+  color: #fff;
+  text-align: center;
+  padding: 2rem;
+  box-shadow: 0 25px 50px rgba(0, 0, 0, 0.5);
+  z-index: 20;
+}
+
+.overlay h2 {
+  font-size: 2rem;
+  color: #a855f7;
+  margin: 0 0 1rem;
+}
+
+.overlay .instructions p {
+  margin: 0.4rem 0;
+  color: #94a3b8;
+}
+
+.overlay .instructions strong {
+  color: #fff;
+}
+
+.overlay .final-stats p {
+  margin: 0.5rem 0;
+  font-size: 1.2rem;
+  color: #94a3b8;
+}
+
+.overlay .final-stats strong {
+  color: #a855f7;
+}
+
+.overlay .new-record {
+  color: #4ade80 !important;
+  font-weight: bold;
+}
+
+.overlay .start-hint {
+  color: #64748b;
+  font-size: 0.9rem;
+  margin: 1rem 0;
+}
+
+.start-button {
+  background: linear-gradient(135deg, #a855f7, #7c3aed);
+  color: #fff;
+  border: none;
+  padding: 0.75rem 2rem;
+  font-size: 1.1rem;
+  font-weight: bold;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: transform 0.1s, box-shadow 0.1s;
+}
+
+.start-button:hover {
+  transform: scale(1.05);
+  box-shadow: 0 5px 20px rgba(168, 85, 247, 0.4);
+}

@@ -10,7 +10,14 @@ const games = [
   { id: 'flappy-bird', name: 'Flappy Bird', icon: '🐦', players: 1, color: '#facc15' },
   { id: 'asteroids', name: 'Asteroids', icon: '🚀', players: 1, color: '#64748b' },
   { id: 'tank-battle', name: 'Tank Battle', icon: '🎯', players: 2, color: '#ef4444' },
-  { id: 'paper-io', name: 'Paper.io', icon: '📄', players: 1, color: '#3b82f6' },
+  { id: 'whack-a-mole', name: 'Whack-a-Mole', icon: '🔨', players: 1, color: '#22c55e' },
+  { id: 'cookie-clicker', name: 'Cookie Clicker', icon: '🍪', players: 1, color: '#d97706' },
+  { id: 'simon-says', name: 'Simon Says', icon: '🎵', players: 1, color: '#a855f7' },
+  { id: '2048', name: '2048', icon: '🔢', players: 1, color: '#edc22e' },
+  { id: 'tic-tac-toe', name: 'Tic Tac Toe', icon: '⭕', players: 2, color: '#3b82f6' },
+  { id: 'memory-match', name: 'Memory Match', icon: '🃏', players: 1, color: '#6366f1' },
+  { id: 'dino-run', name: 'Dino Run', icon: '🦖', players: 1, color: '#22c55e' },
+  { id: 'slope-io', name: 'Downhill', icon: '🎱', players: 1, color: '#3b82f6' },
 ];
 
 function GameGrid() {

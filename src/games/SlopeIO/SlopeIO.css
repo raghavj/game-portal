@@ -1,0 +1,88 @@
+.slope-io {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  padding: 1rem;
+  position: relative;
+}
+
+.slope-canvas {
+  border: 3px solid #3b82f6;
+  border-radius: 8px;
+  box-shadow: 0 0 30px rgba(59, 130, 246, 0.3);
+  cursor: pointer;
+}
+
+.slope-score {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #3b82f6;
+  font-family: monospace;
+}
+
+.slope-overlay {
+  position: absolute;
+  top: 1rem;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 800px;
+  height: 500px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0, 0, 0, 0.85);
+  border-radius: 8px;
+  z-index: 20;
+  border: 3px solid #3b82f6;
+}
+
+.slope-overlay h2 {
+  font-size: 2.5rem;
+  margin-bottom: 1rem;
+  color: #3b82f6;
+  text-shadow: 0 0 20px rgba(59, 130, 246, 0.5);
+}
+
+.slope-overlay p {
+  font-size: 1.2rem;
+  color: #94a3b8;
+  margin-bottom: 0.5rem;
+}
+
+.slope-overlay .final-score {
+  font-size: 2rem;
+  color: #fff;
+  margin: 1rem 0;
+}
+
+.slope-overlay .high-score {
+  font-size: 1.2rem;
+  color: #fbbf24;
+  margin-bottom: 1.5rem;
+}
+
+.slope-overlay .controls {
+  color: #64748b;
+  font-size: 1rem;
+  margin-top: 1rem;
+}
+
+.slope-start-btn {
+  padding: 1rem 2.5rem;
+  font-size: 1.3rem;
+  font-weight: bold;
+  color: white;
+  background: linear-gradient(135deg, #3b82f6, #1d4ed8);
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: transform 0.2s, box-shadow 0.2s;
+  margin-top: 1rem;
+}
+
+.slope-start-btn:hover {
+  transform: scale(1.05);
+  box-shadow: 0 0 20px rgba(59, 130, 246, 0.5);
+}

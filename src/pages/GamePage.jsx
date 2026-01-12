@@ -8,7 +8,14 @@ import SpaceInvaders from '../games/SpaceInvaders/SpaceInvaders';
 import FlappyBird from '../games/FlappyBird/FlappyBird';
 import Asteroids from '../games/Asteroids/Asteroids';
 import TankBattle from '../games/TankBattle/TankBattle';
-import PaperIO from '../games/PaperIO/PaperIO';
+import WhackAMole from '../games/WhackAMole/WhackAMole';
+import CookieClicker from '../games/CookieClicker/CookieClicker';
+import SimonSays from '../games/SimonSays/SimonSays';
+import Game2048 from '../games/Game2048/Game2048';
+import TicTacToe from '../games/TicTacToe/TicTacToe';
+import MemoryMatch from '../games/MemoryMatch/MemoryMatch';
+import DinoRun from '../games/DinoRun/DinoRun';
+import SlopeIO from '../games/SlopeIO/SlopeIO';
 
 const gameComponents = {
   'snake': { component: Snake, name: 'Snake' },
@@ -19,7 +26,14 @@ const gameComponents = {
   'flappy-bird': { component: FlappyBird, name: 'Flappy Bird' },
   'asteroids': { component: Asteroids, name: 'Asteroids' },
   'tank-battle': { component: TankBattle, name: 'Tank Battle' },
-  'paper-io': { component: PaperIO, name: 'Paper.io' },
+  'whack-a-mole': { component: WhackAMole, name: 'Whack-a-Mole' },
+  'cookie-clicker': { component: CookieClicker, name: 'Cookie Clicker' },
+  'simon-says': { component: SimonSays, name: 'Simon Says' },
+  '2048': { component: Game2048, name: '2048' },
+  'tic-tac-toe': { component: TicTacToe, name: 'Tic Tac Toe' },
+  'memory-match': { component: MemoryMatch, name: 'Memory Match' },
+  'dino-run': { component: DinoRun, name: 'Dino Run' },
+  'slope-io': { component: SlopeIO, name: 'Downhill' },
 };
 
 function GamePage() {

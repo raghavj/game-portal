@@ -1,0 +1,164 @@
+.tictactoe-game {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.5rem;
+  padding: 1rem;
+}
+
+.mode-toggle {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.mode-toggle button {
+  padding: 0.5rem 1.25rem;
+  border: 2px solid #475569;
+  background: transparent;
+  color: #94a3b8;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: all 0.15s;
+}
+
+.mode-toggle button.active {
+  background: #3b82f6;
+  border-color: #3b82f6;
+  color: #fff;
+}
+
+.mode-toggle button:hover:not(.active) {
+  border-color: #64748b;
+  color: #fff;
+}
+
+.scoreboard {
+  display: flex;
+  gap: 1rem;
+}
+
+.score {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 0.75rem 1.5rem;
+  border-radius: 10px;
+  min-width: 80px;
+}
+
+.x-score {
+  background: rgba(59, 130, 246, 0.2);
+  border: 2px solid #3b82f6;
+}
+
+.o-score {
+  background: rgba(239, 68, 68, 0.2);
+  border: 2px solid #ef4444;
+}
+
+.draw-score {
+  background: rgba(100, 116, 139, 0.2);
+  border: 2px solid #64748b;
+}
+
+.score .player {
+  font-size: 0.8rem;
+  color: #94a3b8;
+  text-transform: uppercase;
+}
+
+.score .points {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #fff;
+}
+
+.ttt-board {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+  padding: 15px;
+  background: #1e293b;
+  border-radius: 15px;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+}
+
+.ttt-cell {
+  width: 100px;
+  height: 100px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 3rem;
+  font-weight: bold;
+  background: #334155;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: all 0.15s;
+  user-select: none;
+}
+
+.ttt-cell:hover:not(.filled) {
+  background: #475569;
+}
+
+.ttt-cell.x {
+  color: #3b82f6;
+}
+
+.ttt-cell.o {
+  color: #ef4444;
+}
+
+.ttt-cell.winner {
+  animation: pulse-winner 0.5s ease-in-out infinite alternate;
+}
+
+@keyframes pulse-winner {
+  from { transform: scale(1); }
+  to { transform: scale(1.05); background: #22c55e; }
+}
+
+.game-status {
+  font-size: 1.3rem;
+  color: #94a3b8;
+  height: 40px;
+  display: flex;
+  align-items: center;
+}
+
+.winner-text {
+  color: #22c55e;
+  font-weight: bold;
+}
+
+.draw-text {
+  color: #f59e0b;
+  font-weight: bold;
+}
+
+.ttt-buttons {
+  display: flex;
+  gap: 1rem;
+}
+
+.reset-btn {
+  padding: 0.75rem 1.5rem;
+  background: linear-gradient(135deg, #3b82f6, #2563eb);
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition: transform 0.1s;
+}
+
+.reset-btn:hover {
+  transform: scale(1.05);
+}
+
+.reset-btn.secondary {
+  background: linear-gradient(135deg, #475569, #334155);
+}
