@@ -10,17 +10,22 @@ const LINE_COLOR = 'rgba(255, 255, 255, 0.5)';
 function RetroBall() {
   const canvasRef = useRef(null);
   const gameRef = useRef({
-    qb: { x: CANVAS_WIDTH / 2, y: CANVAS_HEIGHT - 60 },
+    qb: { x: CANVAS_WIDTH / 2, y: CANVAS_HEIGHT - 60, aimAngle: -Math.PI / 2 },
     receivers: [],
     defenders: [],
     ball: null,
     ballTarget: null,
+    ballCarrier: null,
     down: 1,
     yardsToGo: 10,
     fieldPosition: 20,
-    playState: 'setup', // setup, running, throwing, complete, intercepted, touchdown
+    playState: 'setup', // setup, running, throwing, rushing, tackled, complete, intercepted, touchdown
     playTimer: 0,
     score: 0,
+    mouseX: CANVAS_WIDTH / 2,
+    mouseY: 0,
+    keys: { left: false, right: false, up: false, down: false },
+    catchY: 0,
   });
 
   const [gameState, setGameState] = useState('ready');
@@ -36,17 +41,20 @@ function RetroBall() {
 
   const resetGame = () => {
     const game = gameRef.current;
-    game.qb = { x: CANVAS_WIDTH / 2, y: CANVAS_HEIGHT - 60 };
+    game.qb = { x: CANVAS_WIDTH / 2, y: CANVAS_HEIGHT - 60, aimAngle: -Math.PI / 2 };
     game.receivers = [];
     game.defenders = [];
     game.ball = null;
     game.ballTarget = null;
+    game.ballCarrier = null;
     game.down = 1;
     game.yardsToGo = 10;
     game.fieldPosition = 20;
     game.playState = 'setup';
     game.playTimer = 0;
     game.score = 0;
+    game.keys = { left: false, right: false, up: false, down: false };
+    game.catchY = 0;
   };
 
   const setupPlay = () => {
@@ -163,6 +171,20 @@ function RetroBall() {
     }
   };
 
+  const handleMouseMove = (e) => {
+    const game = gameRef.current;
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+    const rect = canvas.getBoundingClientRect();
+    game.mouseX = e.clientX - rect.left;
+    game.mouseY = e.clientY - rect.top;
+
+    // Update QB aim angle when running
+    if (game.playState === 'running') {
+      game.qb.aimAngle = Math.atan2(game.mouseY - game.qb.y, game.mouseX - game.qb.x);
+    }
+  };
+
   const endPlay = (result, yards = 0) => {
     const game = gameRef.current;
 
@@ -225,6 +247,32 @@ function RetroBall() {
       }, 1500);
     }
   };
+
+  // Keyboard controls for rushing
+  useEffect(() => {
+    const handleKeyDown = (e) => {
+      const game = gameRef.current;
+      if (e.key === 'ArrowLeft' || e.key === 'a') game.keys.left = true;
+      if (e.key === 'ArrowRight' || e.key === 'd') game.keys.right = true;
+      if (e.key === 'ArrowUp' || e.key === 'w') game.keys.up = true;
+      if (e.key === 'ArrowDown' || e.key === 's') game.keys.down = true;
+    };
+
+    const handleKeyUp = (e) => {
+      const game = gameRef.current;
+      if (e.key === 'ArrowLeft' || e.key === 'a') game.keys.left = false;
+      if (e.key === 'ArrowRight' || e.key === 'd') game.keys.right = false;
+      if (e.key === 'ArrowUp' || e.key === 'w') game.keys.up = false;
+      if (e.key === 'ArrowDown' || e.key === 's') game.keys.down = false;
+    };
+
+    window.addEventListener('keydown', handleKeyDown);
+    window.addEventListener('keyup', handleKeyUp);
+    return () => {
+      window.removeEventListener('keydown', handleKeyDown);
+      window.removeEventListener('keyup', handleKeyUp);
+    };
+  }, []);
 
   useEffect(() => {
     if (gameState !== 'playing') return;
@@ -335,17 +383,66 @@ function RetroBall() {
               }
             }
 
-            // Catch!
+            // Catch! Start rushing phase
             game.ballTarget.caught = true;
-            const yardsGained = Math.floor((CANVAS_HEIGHT - 60 - game.ballTarget.y) / 4);
+            game.ballCarrier = game.ballTarget;
+            game.catchY = game.ballTarget.y;
+            game.ball = null;
+            game.playState = 'rushing';
+          }
+        }
 
-            if (game.fieldPosition + yardsGained >= 100) {
-              game.playState = 'touchdown';
-              endPlay('touchdown');
-            } else {
-              game.playState = 'complete';
-              endPlay('complete', yardsGained);
+        // Handle rushing (after catch)
+        if (game.playState === 'rushing' && game.ballCarrier) {
+          const carrier = game.ballCarrier;
+          const runSpeed = 4;
+
+          // Move ball carrier with arrow keys
+          if (game.keys.left) carrier.x -= runSpeed;
+          if (game.keys.right) carrier.x += runSpeed;
+          if (game.keys.up) carrier.y -= runSpeed;
+          if (game.keys.down) carrier.y += runSpeed * 0.5; // Slower going backward
+
+          // Keep in bounds
+          carrier.x = Math.max(25, Math.min(CANVAS_WIDTH - 25, carrier.x));
+          carrier.y = Math.max(10, Math.min(CANVAS_HEIGHT - 30, carrier.y));
+
+          // Defenders chase ball carrier
+          for (const def of game.defenders) {
+            const dx = carrier.x - def.x;
+            const dy = carrier.y - def.y;
+            const dist = Math.hypot(dx, dy);
+
+            if (dist > 5) {
+              def.x += (dx / dist) * (def.speed + 0.5);
+              def.y += (dy / dist) * (def.speed + 0.5);
             }
+
+            // Tackle check
+            if (dist < 20) {
+              game.playState = 'tackled';
+              const yardsGained = Math.floor((game.catchY - carrier.y) / 4);
+
+              if (carrier.y <= 60) {
+                endPlay('touchdown');
+              } else {
+                endPlay('complete', Math.max(0, yardsGained));
+              }
+              break;
+            }
+          }
+
+          // Touchdown check
+          if (carrier.y <= 60) {
+            game.playState = 'touchdown';
+            endPlay('touchdown');
+          }
+
+          // Out of bounds check
+          if (carrier.x <= 20 || carrier.x >= CANVAS_WIDTH - 20) {
+            const yardsGained = Math.floor((game.catchY - carrier.y) / 4);
+            game.playState = 'tackled';
+            endPlay('complete', Math.max(0, yardsGained));
           }
         }
 
@@ -482,6 +579,36 @@ function RetroBall() {
     ctx.fillStyle = 'rgba(0, 0, 0, 0.3)';
     ctx.fill();
 
+    // QB aiming line (when running)
+    if (game.playState === 'running') {
+      const aimLength = 50;
+      const aimX = game.qb.x + Math.cos(game.qb.aimAngle) * aimLength;
+      const aimY = game.qb.y + Math.sin(game.qb.aimAngle) * aimLength;
+
+      ctx.beginPath();
+      ctx.moveTo(game.qb.x, game.qb.y);
+      ctx.lineTo(aimX, aimY);
+      ctx.strokeStyle = 'rgba(251, 191, 36, 0.8)';
+      ctx.lineWidth = 3;
+      ctx.stroke();
+
+      // Aim arrow
+      const arrowSize = 10;
+      const arrowAngle = 0.5;
+      ctx.beginPath();
+      ctx.moveTo(aimX, aimY);
+      ctx.lineTo(
+        aimX - arrowSize * Math.cos(game.qb.aimAngle - arrowAngle),
+        aimY - arrowSize * Math.sin(game.qb.aimAngle - arrowAngle)
+      );
+      ctx.moveTo(aimX, aimY);
+      ctx.lineTo(
+        aimX - arrowSize * Math.cos(game.qb.aimAngle + arrowAngle),
+        aimY - arrowSize * Math.sin(game.qb.aimAngle + arrowAngle)
+      );
+      ctx.stroke();
+    }
+
     ctx.beginPath();
     ctx.arc(game.qb.x, game.qb.y, 14, 0, Math.PI * 2);
     ctx.fillStyle = '#3b82f6';
@@ -533,6 +660,16 @@ function RetroBall() {
       ctx.fillText('Then click a receiver to throw', CANVAS_WIDTH / 2, CANVAS_HEIGHT / 2 + 20);
     }
 
+    // Rushing instructions
+    if (game.playState === 'rushing') {
+      ctx.fillStyle = 'rgba(0, 0, 0, 0.7)';
+      ctx.fillRect(CANVAS_WIDTH / 2 - 120, CANVAS_HEIGHT - 50, 240, 35);
+      ctx.fillStyle = '#fbbf24';
+      ctx.font = 'bold 16px Arial';
+      ctx.textAlign = 'center';
+      ctx.fillText('Use ARROW KEYS to run!', CANVAS_WIDTH / 2, CANVAS_HEIGHT - 28);
+    }
+
     // Message
     if (message) {
       ctx.fillStyle = 'rgba(0, 0, 0, 0.8)';
@@ -553,6 +690,7 @@ function RetroBall() {
         height={CANVAS_HEIGHT}
         className="retro-ball-canvas"
         onClick={handleCanvasClick}
+        onMouseMove={handleMouseMove}
       />
       <div className="retro-ball-hud">
         <span>Score: {score}</span>
@@ -565,9 +703,9 @@ function RetroBall() {
         <div className="retro-ball-overlay">
           <h2>Retro Ball</h2>
           <p>Lead your team down the field!</p>
-          <p className="controls">Click to snap, then click a receiver to throw</p>
-          <p className="controls">Green receivers = OPEN, Blue = covered</p>
-          <p className="controls">Score before 4th down or it's game over!</p>
+          <p className="controls">Click to snap, aim with mouse, click receiver to throw</p>
+          <p className="controls">After catch: Use ARROW KEYS to run!</p>
+          <p className="controls">Green = OPEN | Score before 4th down!</p>
           <p className="high-score">High Score: {highScore}</p>
           <button className="retro-ball-start-btn" onClick={startGame}>
             Start Game
