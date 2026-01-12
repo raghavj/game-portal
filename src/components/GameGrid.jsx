@@ -18,6 +18,7 @@ const games = [
   { id: 'memory-match', name: 'Memory Match', icon: '🃏', players: 1, color: '#6366f1' },
   { id: 'dino-run', name: 'Dino Run', icon: '🦖', players: 1, color: '#22c55e' },
   { id: 'slope-io', name: 'Downhill', icon: '🎱', players: 1, color: '#3b82f6' },
+  { id: 'retro-ball', name: 'Retro Ball', icon: '🏈', players: 1, color: '#22c55e' },
 ];
 
 function GameGrid() {

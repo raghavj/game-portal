@@ -16,6 +16,7 @@ import TicTacToe from '../games/TicTacToe/TicTacToe';
 import MemoryMatch from '../games/MemoryMatch/MemoryMatch';
 import DinoRun from '../games/DinoRun/DinoRun';
 import SlopeIO from '../games/SlopeIO/SlopeIO';
+import RetroBall from '../games/RetroBall/RetroBall';
 
 const gameComponents = {
   'snake': { component: Snake, name: 'Snake' },
@@ -34,6 +35,7 @@ const gameComponents = {
   'memory-match': { component: MemoryMatch, name: 'Memory Match' },
   'dino-run': { component: DinoRun, name: 'Dino Run' },
   'slope-io': { component: SlopeIO, name: 'Downhill' },
+  'retro-ball': { component: RetroBall, name: 'Retro Ball' },
 };
 
 function GamePage() {
